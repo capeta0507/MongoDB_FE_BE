@@ -12,7 +12,7 @@ var ObjectId = require('mongodb').ObjectId;
 
 // Constants
 const PORT = 5500;
-const HOST = '192.168.0.14';
+// const HOST = '192.168.0.14';
 
 // App
 const app = express();
@@ -24,29 +24,17 @@ app.use('/', express.static(__dirname + '/public'));
 var url = 'mongodb+srv://nintendof1:nintendoformula1@f1cluster-je0sc.gcp.mongodb.net/test?retryWrites=true&w=majority';
 let dbo;
 let drivers;
+let databaseName = "F1";
 let collecionName = 'Drivers';
 MongoClient.connect(url, { useNewUrlParser: true },function(err, db) {
     if (err) console.log(err);
-    dbo = db.db("F1");  // 指向 tododatabase資料庫
-    drivers = dbo.collection(collecionName);
-    console.log('MongoDB 連線 F1...成功');
+    else {
+        dbo = db.db(databaseName);  // 指向 資料庫
+        drivers = dbo.collection(collecionName); // 指向 Collection
+        console.log('MongoDB 連線 F1...成功');
+    }
+    db.close();
 });
-// MongoClient.connect(url,{ useNewUrlParser: true }, (err, dbCluster) => {
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         dbo = dbCluster.db('F1');
-//         drivers = dbo.collection(collecionName);
-//         drivers.find({}).toArray((err, result) => {
-//             if (err) {
-//                 console.log(err);
-//             } else {
-//                 console.log(result);
-//                 dbCluster.close();
-//             }
-//         })
-//     }
-// })
 
 // 127.0.0.1:5500/ root
 app.get('/', (req, res) => {
@@ -58,23 +46,52 @@ app.get('/', (req, res) => {
 });
 
 app.get('/f1/drivers', (req, res) => {
-
+    // http://localhost:5500/f1/drivers 
+    // 取得全部 F1 Driver 紀錄
     MongoClient.connect(url, { useNewUrlParser: true },function(err, db) {
         if (err) console.log(err);
-        dbo = db.db("F1");  // 指向 tododatabase資料庫
-        drivers = dbo.collection(collecionName);
-        // console.log('MongoDB 連線 F1...成功');
-        drivers.find({}).toArray((err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(result);
-                res.json(result);
-            }
-        })
+        else {
+            dbo = db.db(databaseName);  // 指向 資料庫
+            drivers = dbo.collection(collecionName); // 指向 Collection
+            // console.log('MongoDB 連線 F1...成功');
+            drivers.find({}).toArray((err, result) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    // console.log(result);
+                    res.json(result);
+                }
+            })
+        }
         db.close();
     });
 })
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+app.get('/f1/driver/:id',(req,res) =>{
+    // http://localhost:5500/f1/driver/5d4e4a8494e1df05124b8111 
+    // 取得全部 F1 Driver _id = 5d4e4a8494e1df05124b8111 的紀錄
+    let myReq = req.params;
+    let myID = myReq.id;
+    let myQuery = {_id : ObjectId(myID)}
+    // console.log('id : ' + myID);
+    MongoClient.connect(url, { useNewUrlParser: true } , (err,db)=>{
+        if (err) console.log(err);
+        else {
+            dbo = db.db(databaseName);  // 指向 資料庫
+            drivers = dbo.collection(collecionName); // 指向 Collection
+            drivers.find(myQuery).toArray((err, result) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    // console.log(result);
+                    res.json(result);
+                }
+            })
+        }
+        db.close();
+    })
+})
+
+app.listen(PORT,()=>{
+    console.log(`Running on http://localhost:${PORT}`);
+});
