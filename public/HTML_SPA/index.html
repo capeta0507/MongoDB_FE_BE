@@ -50,9 +50,9 @@
   </div>
 </body>
 <script>
+  var myData = '';
+  var myBtn = '';
   $(document).ready(() => {
-    let myData = '';
-    let myBtn = '';
     $.ajax({
       url: 'http://192.168.0.14:5500/f1/drivers',
       type: 'GET',
@@ -106,5 +106,31 @@
       document.getElementById('message').innerHTML = myBtn;
     })
   })
+  // function insert() {
+  //   myData += '<div class="myForm">';
+  //   myData += '<div>';
+  //   myData += '<span>名字：</span>';
+  //   myData += '<input id="myFname" type="text" value="" />';
+  //   myData += '</div><br />';
+  //   myData += '<div>';
+  //   myData += '<span>姓氏：</span>';
+  //   myData += '<input id="myLname" type="text" value="" />';
+  //   myData += '</div><br />';
+  //   myData += '<div>';
+  //   myData += '<span>車號：</span>';
+  //   myData += '<input id="myNum" type="number" value="" />';
+  //   myData += '</div><br />';
+  //   myData += '<div>';
+  //   myData += '<span>車隊：</span>';
+  //   myData += '<input id="myTeam" type="text" value="" />';
+  //   myData += '</div><br />';
+  //   myData += '</div>';
+
+  //   myBtn += '<button class="btn btn-success btn-sm">新增</button> ';
+  //   myBtn += ' <button id="getBack" class="btn btn-warning btn-sm" onclick="javascript:window.location.reload()">返回</button>';
+
+  //   document.getElementById('myDiv').innerHTML = myData;
+  //   document.getElementById('message').innerHTML = myBtn;
+  // }
 </script>
 </html>
