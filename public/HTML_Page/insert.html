@@ -4,45 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <title>insert</title>
 </head>
 <style>
-    .center {
-        text-align: center;
-    }
-    .myForm {
-        width: 300px;
-        border: 1px solid black;
-        margin: 10px auto;
-        padding: 10px;
-    }
+  .center {
+    text-align: center;
+  }
+  .myForm {
+    width: 300px;
+    border: 1px solid black;
+    margin: 10px auto;
+    padding: 10px;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  a:hover {
+    color: white;
+    text-decoration: none;
+  }
 </style>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 center">
-                <h1>F1 Drivers 2019</h1>
-                <div class="myForm">
-                    <div>
-                        <span>名字：</span><input id="myFname" type="text" value="" />
-                    </div>
-                    <br />
-                    <div>
-                        <span>姓氏：</span><input id="myLname" type="text" value="" />
-                    </div>
-                    <br />
-                    <div>
-                        <span>車號：</span><input id="myNum" type="number" value="" />
-                    </div>
-                    <br />
-                    <div>
-                        <span>車隊：</span><input id="myTeam" type="text" value="" />
-                    </div>
-                    <br />
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 center">
+        <h1>F1 Drivers 2019</h1>
+        <div class="myForm">
+          <div>
+            <span>名字：</span><input id="myFname" type="text" value="" />
+          </div>
+          <br />
+          <div>
+            <span>姓氏：</span><input id="myLname" type="text" value="" />
+          </div>
+          <br />
+          <div>
+            <span>車號：</span><input id="myNum" type="number" value="" />
+          </div>
+          <br />
+          <div>
+            <span>車隊：</span><input id="myTeam" type="text" value="" />
+          </div>
+          <br />
         </div>
+        <div class="myForm">
+          <button class="btn btn-success btn-sm">新增</button>
+          <button class="btn btn-warning btn-sm">
+            <a href="/HTML_Page">
+              返回
+            </a>
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 
 </body>
 </html>
