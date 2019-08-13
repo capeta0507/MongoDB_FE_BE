@@ -21,7 +21,7 @@ const app = express();
 app.use('/', express.static(__dirname + '/public'));
 
 // mLab Mongodb tododatabase 連線 要有 { useNewUrlParser: true } 選項
-var url = 'mongodb+srv://nintendof1:nintendoformula1@f1cluster-je0sc.gcp.mongodb.net/test?retryWrites=true&w=majority';
+let url = 'mongodb+srv://nintendof1:nintendoformula1@f1cluster-je0sc.gcp.mongodb.net/test?retryWrites=true&w=majority';
 let dbo;
 let drivers;
 let databaseName = "F1";
