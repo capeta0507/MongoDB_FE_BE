@@ -1,4 +1,5 @@
 const express = require('express');
+var moment = require('moment');
 
 var bodyParser = require('body-parser');
 // create application/json parser (POST 傳送 JOSN 資料過來的bodyParser)
@@ -45,6 +46,7 @@ app.get('/', (req, res) => {
     // res.end("Good bye");
 });
 
+// 查詢全部紀錄(GET)
 app.get('/f1/drivers', (req, res) => {
     // http://localhost:5500/f1/drivers 
     // 取得全部 F1 Driver 紀錄
@@ -67,12 +69,13 @@ app.get('/f1/drivers', (req, res) => {
     });
 })
 
+// 根據 ID 查詢單筆紀錄(GET)
 app.get('/f1/driver/:id',(req,res) =>{
     // http://localhost:5500/f1/driver/5d4e4a8494e1df05124b8111 
     // 取得全部 F1 Driver _id = 5d4e4a8494e1df05124b8111 的紀錄
     let myReq = req.params;
     let myID = myReq.id;
-    let myQuery = {_id : ObjectId(myID)}
+    let myQuery = {_id : ObjectId(myID)};
     // console.log('id : ' + myID);
     MongoClient.connect(url, { useNewUrlParser: true } , (err,db)=>{
         if (err) console.log(err);
@@ -86,6 +89,80 @@ app.get('/f1/driver/:id',(req,res) =>{
                     // console.log(result);
                     res.json(result);
                 }
+            })
+        }
+        db.close();
+    })
+})
+
+// 新增一筆紀錄(POST)
+app.post('/f1/drivers',jsonParser,(req,res)=>{
+    // http://localhost:5500/f1/driver/
+    if (!req.body) {
+        res.statusCode(400).send("<h1>資料不存在，無法新增</h1>");
+    }else{
+        let newvalues = req.body;
+        newvalues.timestamp = moment().valueOf(); // 增加建檔時間欄位 timestamp
+        // console.log('新增紀錄',newvalues);
+        MongoClient.connect(url,{useNewUrlParser: true},(err,db)=>{
+            if (err) console.log(err);
+            else{
+                dbo = db.db(databaseName);  // 指向 資料庫
+                drivers = dbo.collection(collecionName); // 指向 Collection
+                drivers.insertOne(newvalues,(err,result)=>{
+                    if(err) {
+                        console.log(err);
+                    }else{
+                        res.json(result.ops);
+                    }
+                })
+            }
+            db.close();
+        })
+    }
+})
+
+// 修改一筆紀錄(PUT)
+app.put('/f1/drivers/:id',jsonParser,(req,res)=>{
+    // http://localhost:5500/f1/driver/
+    // 取得全部 F1 Driver _id = 5d4e4a8494e1df05124b8111 的紀錄，並予以寫回新資料
+    let myReq = req.params;
+    let myID = myReq.id;
+    let myQuery = {_id : ObjectId(myID)};
+    if (!req.body) {
+        res.statusCode(400).send("<h1>資料不存在，無法修改</h1>");
+    }else {
+        let newvalues = req.body;
+        // console.log('修改紀錄',newvalues);
+        MongoClient.connect(url,{useNewUrlParser:true},(err,db)=>{
+            dbo = db.db(databaseName);  // 指向 資料庫
+            drivers = dbo.collection(collecionName); // 指向 Collection
+            drivers.updateOne(myQuery,{$set:newvalues},(err,result) =>{
+                if (err){
+                    console.log(err);
+                }else {
+                    res.json(result.result);
+                }
+            })
+            db.close();
+        })
+    }
+})
+
+// 刪除一筆紀錄(DELETE)
+app.delete('/f1/drivers/:id',jsonParser,(req,res)=>{
+    // http://localhost:5500/f1/driver/
+    // 取得全部 F1 Driver _id = 5d4e4a8494e1df05124b8111 的紀錄，並予以刪除
+    let myReq = req.params;
+    let myID = myReq.id;
+    let myQuery = {_id : ObjectId(myID)};
+    MongoClient.connect(url, { useNewUrlParser: true } , (err,db)=>{
+        if (err) console.log(err);
+        else {
+            dbo = db.db(databaseName);  // 指向 資料庫
+            drivers = dbo.collection(collecionName); // 指向 Collection
+            drivers.deleteOne(myQuery,(err,result)=>{
+                res.json(result.result);
             })
         }
         db.close();
