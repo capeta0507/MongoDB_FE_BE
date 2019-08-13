@@ -15,13 +15,11 @@
     text-align: center;
   }
   .myForm {
-    width: 300px;
     border: 1px solid black;
     margin: 10px auto;
     padding: 10px;
   }
   .myBtn {
-    width: 300px;
     margin: 10px auto;
   }
   a {
@@ -35,36 +33,44 @@
 </style>
 <body>
   <div class="container">
+    <h1 class="center">F1 Drivers 2019</h1>
     <div class="row">
-      <div class="col-12 center">
-        <h1>F1 Drivers 2019</h1>
-        <div class="myForm">
-          <div>
-            <span>名字：</span><input id="myFname" type="text" value="" />
+      <div class="col-2"></div>
+      <div class="col-8 myForm">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">名字：</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="myFname" value="">
           </div>
-          <br />
-          <div>
-            <span>姓氏：</span><input id="myLname" type="text" value="" />
-          </div>
-          <br />
-          <div>
-            <span>車號：</span><input id="myNum" type="number" value="" />
-          </div>
-          <br />
-          <div>
-            <span>車隊：</span><input id="myTeam" type="text" value="" />
-          </div>
-          <br />
         </div>
-        <div class="myBtn">
-          <button class="btn btn-success btn-sm">新增</button>
-          <button class="btn btn-warning btn-sm">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">姓氏：</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="myLname" value="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">車號：</label>
+          <div class="col-sm-10">
+            <input type="number" class="form-control" id="myNum" value="">
+          </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">車隊：</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="myTeam" value="">
+            </div>
+          </div>
+        <div class="myBtn center">
+          <button class="btn btn-success">新增</button>
+          <button class="btn btn-warning">
             <a href="/HTML_Page">
               返回
             </a>
           </button>
         </div>
       </div>
+      <div class="col-2"></div>
     </div>
   </div>
 
