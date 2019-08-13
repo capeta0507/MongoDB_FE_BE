@@ -70,15 +70,16 @@
         // let myDriver = $('#myDriver').html();
         let getDriver = '';
         for(let x = 0; x < result.length; x++ ){
-            // console.log(result[x]);
-            getDriver += "<tr>";
-            getDriver += "<th scope='row'>" + (x + 1 )+ "</th>";
-            getDriver += "<td>" + result[x].First_Name + " " + result[x].Last_Name + "</td>";
-            getDriver += "<td>" + result[x].Team + "</td>";
-            getDriver += "<td>" + result[x].Number + "</td>";
-            getDriver += "<td>" + "<button class='btn btn-primary btn-sm'>修改</button> ";
-            getDriver += " <button class='btn btn-danger btn-sm'>刪除</button>" + "</td>";
-            getDriver += "</tr>";
+          let driverId = result[x]._id
+          getDriver += "<tr>";
+          getDriver += "<th scope='row'>" + (x + 1 )+ "</th>";
+          getDriver += "<td>" + result[x].First_Name + " " + result[x].Last_Name + "</td>";
+          getDriver += "<td>" + result[x].Team + "</td>";
+          getDriver += "<td>" + result[x].Number + "</td>";
+          getDriver += "<td>" + "<button class='btn btn-primary btn-sm'>";
+          getDriver += "<a href='/HTML_Page/driver.html?id=" + driverId + "'>修改</a></button> ";
+          getDriver += " <button class='btn btn-danger btn-sm'>刪除</button>" + "</td>";
+          getDriver += "</tr>";
         }
         document.getElementById('myDriver').innerHTML = getDriver;
         document.getElementById('message').innerHTML = 'YA! 找到 ' + result.length + '筆紀錄'
