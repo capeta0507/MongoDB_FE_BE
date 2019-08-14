@@ -11,9 +11,6 @@
     <title>insert</title>
 </head>
 <style>
-  .center {
-    text-align: center;
-  }
   .myForm {
     border: 1px solid black;
     margin: 10px auto;
@@ -32,75 +29,80 @@
   }
 </style>
 <body>
-  <div class="container">
-    <h1 class="center">F1 Drivers 2019</h1>
-    <div class="row">
-      <div class="col-2"></div>
-      <div class="col-8 myForm">
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">名字：</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="myFname" value="" placeholder="請輸入名字">
-          </div>
+  <div class="container myForm">
+    <h1 class="text-center">F1 Drivers 2019</h1>
+      <div class="row mt-3">
+        <!-- mt = margin-top ; px = padding-left & padding-right ; pl = padding-left -->
+        <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">名字：</label>
+        <div class="col-lg-9 col-sm-9 col-7 pl-0">
+          <input type="text" class="form-control" id="myFname" value="" placeholder="請輸入名字">
         </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">姓氏：</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="myLname" value="" placeholder="請輸入姓氏">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">車號：</label>
-          <div class="col-sm-10">
-            <input type="number" class="form-control" id="myNum" value="0" placeholder="請輸入車號">
-          </div>
-          </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">車隊：</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="myTeam" value="" placeholder="填寫車隊名字喔！">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">生日：</label>
-          <div class="col-sm-10">
-            <input type="date" class="form-control" id="myBth" value="2019-01-01">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">出生地：</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="myCountry" value="" placeholder="請輸入出生地">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">首個賽季：</label>
-          <div class="col-sm-10">
-            <input type="number" class="form-control" id="myFirst" value="0" placeholder="你的第一個賽季">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">頒獎台次：</label>
-          <div class="col-sm-10">
-            <input type="number" class="form-control" id="myPodium" value="0" placeholder="您上頒獎台的次數">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">世界冠軍：</label>
-          <div class="col-sm-10">
-            <input type="number" class="form-control" id="myWC" value="0" placeholder="您奪得了幾次世界冠軍">
-          </div>
-        </div>
-        <div class="myBtn center">
-          <button id='myCreate' class="btn btn-success">新增</button>
-          <button class="btn btn-warning">
-            <a href="/HTML_Page">
-              返回
-            </a>
-          </button>
-        </div>
+        <div class="col-1"></div>
       </div>
-      <div class="col-2"></div>
+      <div class="row mt-3">
+        <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">姓氏：</label>
+        <div class="col-lg-9 col-sm-9 col-7 pl-0">
+          <input type="text" class="form-control" id="myLname" value="" placeholder="請輸入姓氏">
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <div class="row mt-3">
+        <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">車號：</label>
+        <div class="col-lg-9 col-sm-9 col-7 pl-0">
+          <input type="number" class="form-control" id="myNum" value="0" placeholder="請輸入車號">
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <div class="row mt-3">
+        <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">車隊：</label>
+        <div class="col-lg-9 col-sm-9 col-7 pl-0">
+          <input type="text" class="form-control" id="myTeam" value="" placeholder="填寫車隊名字喔！">
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <div class="row mt-3">
+        <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">生日：</label>
+        <div class="col-lg-9 col-sm-9 col-7 pl-0">
+          <input type="date" class="form-control" id="myBth" value="2019-01-01">
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <div class="row mt-3">
+        <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">出生地：</label>
+        <div class="col-lg-9 col-sm-9 col-7 pl-0">
+          <input type="text" class="form-control" id="myCountry" value="" placeholder="請輸入出生地">
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <div class="row mt-3">
+        <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">首個賽季：</label>
+        <div class="col-lg-9 col-sm-19 col-7 pl-0">
+          <input type="number" class="form-control" id="myFirst" value="0" placeholder="你的第一個賽季">
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <div class="row mt-3">
+        <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">頒獎台次：</label>
+        <div class="col-lg-9 col-sm-9 col-7 pl-0">
+          <input type="number" class="form-control" id="myPodium" value="0" placeholder="您上頒獎台的次數">
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <div class="row mt-3">
+        <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">世界冠軍：</label>
+        <div class="col-lg-9 col-sm-9 col-7 pl-0">
+          <input type="number" class="form-control" id="myWC" value="0" placeholder="您奪得了幾次世界冠軍">
+        </div>
+        <div class="col-1"></div>
+      </div>
+      <div class="myBtn text-center">
+        <button id='myCreate' class="btn btn-success">新增</button>
+        <button class="btn btn-warning">
+          <a href="/HTML_Page">
+            返回
+          </a>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -127,7 +129,7 @@
       "Podium": getPodium,
       "World_Champion": getWC
     }
-    console.log('myData', myData);
+    // console.log('myData', myData);
     $.ajax({
       url: 'http://localhost:5500/f1/drivers/',
       type: 'POST',
