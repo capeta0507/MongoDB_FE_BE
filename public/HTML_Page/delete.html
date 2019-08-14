@@ -92,7 +92,9 @@
           </div>
         </div>
         <div class="myBtn center">
-          <button id='myUpdate' class="btn btn-success">修改</button>
+          <button class="btn btn-success" onclick="getDel();">
+            刪除
+          </button>
           <button class="btn btn-warning">
             <a href="/HTML_Page">
               返回
@@ -106,14 +108,16 @@
 
 </body>
 <script>
-  var myUrl = location.href;
-  if(myUrl.indexOf('?')!=-1){
-    myUrl = myUrl.split('=');
-    myUrl = myUrl[1];
-  }
+  let myUrl = location.search;
+  // console.log(location.search);
+  // if(myUrl.indexOf('?')!=-1){
+  let myUriArray = myUrl.split('=');
+  let myId = myUriArray[1];
+  console.log('myId', myId);
+  // }
   $(document).ready(() => {
     $.ajax({
-      url: 'http://localhost:5500/f1/driver/' + myUrl,
+      url: 'http://localhost:5500/f1/driver/' + myId,
       type: 'GET',
       success: (result) => {
         // console.log('result', result[0]._id);
@@ -128,40 +132,15 @@
         $('#myWC').val(result[0].World_Champion);
       }
     })
-    $('#myUpdate').click(() => {
-      let getFname = $('#myFname').val();
-      let getLname = $('#myLname').val();
-      let getNum = parseInt($('#myNum').val());
-      let getTeam = $('#myTeam').val();
-      let getBth = $('#myBth').val();
-      let getCountry = $('#myCountry').val();
-      let getFirst = parseInt($('#myFirst').val());
-      let getPodium = parseInt($('#myPodium').val());
-      let getWC = parseInt($('#myWC').val());
-      let myData = { 
-        "First_Name": getFname,
-        "Last_Name": getLname,
-        "Team": getTeam,
-        "Number": getNum,
-        "Birthday": getBth,
-        "Country": getCountry,
-        "First_Season": getFirst,
-        "Podium": getPodium,
-        "World_Champion": getWC
-      }
-      // console.log('mybth', myData)
-      $.ajax({
-        url: 'http://localhost:5500/f1/drivers/' + myUrl,
-        type: 'PUT',
-        data: myData,
-        dataType: 'json',
-        data: JSON.stringify(myData),
-        contentType: "application/json",
-        success: (data) => {
-          console.log(data);
-        }
-      })
-    });
   })
+  function getDel() {
+    $.ajax({
+      url: 'http://localhost:5500/f1/drivers/' + myUrl,
+      type: 'DELETE',
+      success: (result) => {
+        console.log(result);
+      }
+    })
+  }
 </script>
 </html>

@@ -40,59 +40,59 @@
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">名字：</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="myFname" value="">
+            <input type="text" class="form-control" id="myFname" value="" placeholder="請輸入名字">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">姓氏：</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="myLname" value="">
+            <input type="text" class="form-control" id="myLname" value="" placeholder="請輸入姓氏">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">車號：</label>
           <div class="col-sm-10">
-            <input type="number" class="form-control" id="myNum" value="">
+            <input type="number" class="form-control" id="myNum" value="0" placeholder="請輸入車號">
           </div>
           </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">車隊：</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="myTeam" value="">
+            <input type="text" class="form-control" id="myTeam" value="" placeholder="填寫車隊名字喔！">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">生日：</label>
           <div class="col-sm-10">
-            <input type="date" class="form-control" id="myBth" value="">
+            <input type="date" class="form-control" id="myBth" value="2019-01-01">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">出生地：</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="myCountry" value="">
+            <input type="text" class="form-control" id="myCountry" value="" placeholder="請輸入出生地">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">首個賽季：</label>
           <div class="col-sm-10">
-            <input type="number" class="form-control" id="myFirst" value="">
+            <input type="number" class="form-control" id="myFirst" value="0" placeholder="你的第一個賽季">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">頒獎台次：</label>
           <div class="col-sm-10">
-            <input type="number" class="form-control" id="myPodium" value="">
+            <input type="number" class="form-control" id="myPodium" value="0" placeholder="您上頒獎台的次數">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-2 col-form-label">世界冠軍：</label>
           <div class="col-sm-10">
-            <input type="number" class="form-control" id="myWC" value="">
+            <input type="number" class="form-control" id="myWC" value="0" placeholder="您奪得了幾次世界冠軍">
           </div>
         </div>
         <div class="myBtn center">
-          <button class="btn btn-success">新增</button>
+          <button id='myCreate' class="btn btn-success">新增</button>
           <button class="btn btn-warning">
             <a href="/HTML_Page">
               返回
@@ -105,4 +105,40 @@
   </div>
 
 </body>
+<script>
+  $('#myCreate').click(() => {
+    let getFname = $('#myFname').val();
+    let getLname = $('#myLname').val();
+    let getNum = parseInt($('#myNum').val());
+    let getTeam = $('#myTeam').val();
+    let getBth = $('#myBth').val();
+    let getCountry = $('#myCountry').val();
+    let getFirst = parseInt($('#myFirst').val());
+    let getPodium = parseInt($('#myPodium').val());
+    let getWC = parseInt($('#myWC').val());
+    let myData = { 
+      "First_Name": getFname,
+      "Last_Name": getLname,
+      "Team": getTeam,
+      "Number": getNum,
+      "Birthday": getBth,
+      "Country": getCountry,
+      "First_Season": getFirst,
+      "Podium": getPodium,
+      "World_Champion": getWC
+    }
+    console.log('myData', myData);
+    $.ajax({
+      url: 'http://localhost:5500/f1/drivers/',
+      type: 'POST',
+      dataType: 'json',
+      data: JSON.stringify(myData),
+      contentType: "application/json",
+      success: (data) => {
+        console.log(data);
+        window.location.assign("http://localhost:5500/HTML_Page/");
+      }
+    })
+  });
+</script>
 </html>
