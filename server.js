@@ -101,6 +101,7 @@ app.post('/f1/drivers',jsonParser,(req,res)=>{
     if (!req.body) {
         res.statusCode(400).send("<h1>資料不存在，無法新增</h1>");
     }else{
+        // console.log(req.body);
         let newvalues = req.body;
         newvalues.timestamp = moment().valueOf(); // 增加建檔時間欄位 timestamp
         // console.log('新增紀錄',newvalues);
