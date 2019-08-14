@@ -127,15 +127,15 @@
       "Podium": getPodium,
       "World_Champion": getWC
     }
-    console.log('myData', myData);
+    console.log(myData);
     $.ajax({
       url: 'http://localhost:5500/f1/drivers/',
       type: 'POST',
-      dataType: 'json',
+      dataType:'json',
       data: JSON.stringify(myData),
       contentType: "application/json",
       success: (data) => {
-        console.log(data);
+        // console.log(data);
         window.location.assign("http://localhost:5500/HTML_Page/");
       }
     })
