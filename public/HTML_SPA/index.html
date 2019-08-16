@@ -15,60 +15,70 @@
     text-align: center;
   }
   .myForm {
-    width: 300px;
     border: 1px solid black;
     margin: 10px auto;
     padding: 10px;
   }
+  .myBtn {
+    margin: 10px auto;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  a:hover {
+    color: white;
+    text-decoration: none;
+  }
 </style>
 <body>
   <div class="container">
-    <div class="row">
-      <div class="col-12 center">
-        <h1>F1 Drivers 2019</h1>
-        <div id="myDiv">
-          <table class="table table-sm table-hover">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Team</th>
-                <th scope="col">Number</th>
-                <th scope="col">功能
-                  <button id="myInsert" class="btn btn-success btn-sm">
-                    新增 + 
-                  </button>
-                </th>
-              </tr>
-            </thead>
-            <tbody id='myDriver'></tbody>
-          </table>
+    <h1 class="text-center">F1 Drivers 2019</h1>
+    <div id="myForm">
+      <div class="row">
+        <div class="col-12 center">
+          <div id="myDiv">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Team</th>
+                  <th scope="col">Number</th>
+                  <th scope="col">功能
+                    <button id="myInsert" class="btn btn-success btn-sm" onclick="getCRUD('Post','');">
+                      新增 + 
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id='myDriver'></tbody>
+            </table>
+          </div>
+          <div id="message"></div>
         </div>
-        <div id="message"></div>
       </div>
     </div>
   </div>
 </body>
 <script>
   var myData = '';
-  var myBtn = '';
+  // 取得所有資料 
   $(document).ready(() => {
     $.ajax({
       url: 'http://localhost:5500/f1/drivers',
       type: 'GET',
       success: (result) => {
-        // console.log(result);
-        // let myDriver = $('#myDriver').html();
         let getDriver = '';
         for(let x = 0; x < result.length; x++ ){
-          // console.log(result[x]);
+          let id = result[x]._id
           getDriver += "<tr>";
           getDriver += "<th scope='row'>" + (x + 1 )+ "</th>";
           getDriver += "<td>" + result[x].First_Name + " " + result[x].Last_Name + "</td>";
           getDriver += "<td>" + result[x].Team + "</td>";
           getDriver += "<td>" + result[x].Number + "</td>";
-          getDriver += "<td>" + "<button class='btn btn-primary btn-sm'>修改</button> ";
-          getDriver += " <button class='btn btn-danger btn-sm'>刪除</button>" + "</td>";
+          getDriver += "<td>" + "<button id='myUpdate' class='btn btn-primary btn-sm' onclick=getCRUD('update','" + id + "')>修改</button> ";
+          getDriver += " <button id='myDelete' class='btn btn-danger btn-sm' onclick=getCRUD('delete','" + id + "')>刪除</button>" + "</td>";
           getDriver += "</tr>";
         }
         document.getElementById('myDriver').innerHTML = getDriver;
@@ -79,58 +89,174 @@
         document.getElementById('message').innerHTML = '404 (' + err.statusText + ')';
       }
     })
-    $('#myInsert').click(() => {
-      myData += '<div class="myForm">';
-      myData += '<div>';
-      myData += '<span>名字：</span>';
-      myData += '<input id="myFname" type="text" value="" />';
-      myData += '</div><br />';
-      myData += '<div>';
-      myData += '<span>姓氏：</span>';
-      myData += '<input id="myLname" type="text" value="" />';
-      myData += '</div><br />';
-      myData += '<div>';
-      myData += '<span>車號：</span>';
-      myData += '<input id="myNum" type="number" value="" />';
-      myData += '</div><br />';
-      myData += '<div>';
-      myData += '<span>車隊：</span>';
-      myData += '<input id="myTeam" type="text" value="" />';
-      myData += '</div><br />';
-      myData += '</div>';
-
-      myBtn += '<button class="btn btn-success btn-sm">新增</button> ';
-      myBtn += ' <button id="getBack" class="btn btn-warning btn-sm" onclick="javascript:window.location.reload()">返回</button>';
-
-      document.getElementById('myDiv').innerHTML = myData;
-      document.getElementById('message').innerHTML = myBtn;
-    })
   })
-  // function insert() {
-  //   myData += '<div class="myForm">';
-  //   myData += '<div>';
-  //   myData += '<span>名字：</span>';
-  //   myData += '<input id="myFname" type="text" value="" />';
-  //   myData += '</div><br />';
-  //   myData += '<div>';
-  //   myData += '<span>姓氏：</span>';
-  //   myData += '<input id="myLname" type="text" value="" />';
-  //   myData += '</div><br />';
-  //   myData += '<div>';
-  //   myData += '<span>車號：</span>';
-  //   myData += '<input id="myNum" type="number" value="" />';
-  //   myData += '</div><br />';
-  //   myData += '<div>';
-  //   myData += '<span>車隊：</span>';
-  //   myData += '<input id="myTeam" type="text" value="" />';
-  //   myData += '</div><br />';
-  //   myData += '</div>';
+  // 進入新增 修改 刪除 畫面
+  function getCRUD(method, id){
+    // console.log('id', id)
+    // console.log('method', method)
+    myData += "<div class='row mt-3'>";
+    myData += "<label class='col-lg-2 col-sm-2 col-4 col-form-label text-right px-0'>名字：</label>";
+    myData += "<div class='col-lg-9 col-sm-9 col-7 pl-0'>";
+    myData += "<input type='text' class='form-control' id='myFname' value='' placeholder='請輸入名字' />";
+    myData += "</div>";
+    myData += "<div class='col-1'></div>";
+    myData += "</div>";
 
-  //   myBtn += '<button class="btn btn-success btn-sm">新增</button> ';
-  //   myBtn += ' <button id="getBack" class="btn btn-warning btn-sm" onclick="javascript:window.location.reload()">返回</button>';
+    myData += "<div class='row mt-3'>";
+    myData += "<label class='col-lg-2 col-sm-2 col-4 col-form-label text-right px-0'>姓氏：</label>";
+    myData += "<div class='col-lg-9 col-sm-9 col-7 pl-0'>";
+    myData += "<input type='text' class='form-control' id='myLname' value='' placeholder='請輸入姓氏' />";
+    myData += "</div>";
+    myData += "<div class='col-1'></div>";
+    myData += "</div>";
 
-  //   document.getElementById('myDiv').innerHTML = myData;
-  //   document.getElementById('message').innerHTML = myBtn;
-  // }
+    myData += "<div class='row mt-3'>";
+    myData += "<label class='col-lg-2 col-sm-2 col-4 col-form-label text-right px-0'>車號：</label>";
+    myData += "<div class='col-lg-9 col-sm-9 col-7 pl-0'>";
+    myData += "<input type='number' class='form-control' id='myNum' value='0' placeholder='請輸入車號' />";
+    myData += "</div>";
+    myData += "<div class='col-1'></div>";
+    myData += "</div>";
+
+    myData += "<div class='row mt-3'>";
+    myData += "<label class='col-lg-2 col-sm-2 col-4 col-form-label text-right px-0'>車隊：</label>";
+    myData += "<div class='col-lg-9 col-sm-9 col-7 pl-0'>";
+    myData += "<input type='text' class='form-control' id='myTeam' value='' placeholder='填寫車隊名字喔！' />";
+    myData += "</div>";
+    myData += "<div class='col-1'></div>";
+    myData += "</div>";
+
+    myData += "<div class='row mt-3'>";
+    myData += "<label class='col-lg-2 col-sm-2 col-4 col-form-label text-right px-0'>生日：</label>";
+    myData += "<div class='col-lg-9 col-sm-9 col-7 pl-0'>";
+    myData += "<input type='date' class='form-control' id='myBth' value='2019-01-01' />";
+    myData += "</div>";
+    myData += "<div class='col-1'></div>";
+    myData += "</div>";
+
+    myData += "<div class='row mt-3'>";
+    myData += "<label class='col-lg-2 col-sm-2 col-4 col-form-label text-right px-0'>出生地：</label>";
+    myData += "<div class='col-lg-9 col-sm-9 col-7 pl-0'>";
+    myData += "<input type='text' class='form-control' id='myCountry' value='' placeholder='請輸入出生地' />";
+    myData += "</div>";
+    myData += "<div class='col-1'></div>";
+    myData += "</div>";
+
+    myData += "<div class='row mt-3'>";
+    myData += "<label class='col-lg-2 col-sm-2 col-4 col-form-label text-right px-0'>首個賽季：</label>";
+    myData += "<div class='col-lg-9 col-sm-9 col-7 pl-0'>";
+    myData += "<input type='number' class='form-control' id='myFirst' value='0' placeholder='你的第一個賽季' />";
+    myData += "</div>";
+    myData += "<div class='col-1'></div>";
+    myData += "</div>";
+
+    myData += "<div class='row mt-3'>";
+    myData += "<label class='col-lg-2 col-sm-2 col-4 col-form-label text-right px-0'>頒獎台數：</label>";
+    myData += "<div class='col-lg-9 col-sm-9 col-7 pl-0'>";
+    myData += "<input type='number' class='form-control' id='myPodium' value='0' placeholder='您上頒獎台的次數' />";
+    myData += "</div>";
+    myData += "<div class='col-1'></div>";
+    myData += "</div>";
+
+    myData += "<div class='row mt-3'>";
+    myData += "<label class='col-lg-2 col-sm-2 col-4 col-form-label text-right px-0'>世界冠軍：</label>";
+    myData += "<div class='col-lg-9 col-sm-9 col-7 pl-0'>";
+    myData += "<input type='number' class='form-control' id='myWC' value='0' placeholder='您奪得了幾次世界冠軍' />";
+    myData += "</div>";
+    myData += "<div class='col-1'></div>";
+    myData += "</div>";
+
+    myData += "<div class='myBtn text-center'>";
+    myData += "<button id='myCreate' class='btn btn-success' onclick=myPost('" + method + "','" + id + "');>新增</button>";
+    myData += "<button id='getBack' class='btn btn-warning' onclick='javascript:window.location.reload()'>返回</button>";
+    myData += "</div>";
+
+    document.getElementById('myForm').innerHTML = myData;
+      // 載入資料
+    $.ajax({
+      url: 'http://localhost:5500/f1/driver/' + id,
+      type: 'GET',
+      success: (result) => {
+        $('#myFname').val(result[0].First_Name);
+        $('#myLname').val(result[0].Last_Name);
+        $('#myNum').val(result[0].Number);
+        $('#myTeam').val(result[0].Team);
+        $('#myBth').val(result[0].Birthday);
+        $('#myCountry').val(result[0].Country);
+        $('#myFirst').val(result[0].First_Season);
+        $('#myPodium').val(result[0].Podium);
+        $('#myWC').val(result[0].World_Champion);
+      }
+    })
+    // 根據 Method 顯示對應按鈕文字
+    if(method == 'update') {
+      $("#myCreate").text("修改");
+    }
+    if(method == 'delete') {
+      $("#myCreate").text("刪除");
+    }
+  }
+  // 功能按鈕執行 
+  function myPost(method,id){
+    // console.log('method', method);
+    // console.log('id', id);
+    let getFname = $('#myFname').val();
+    let getLname = $('#myLname').val();
+    let getNum = parseInt($('#myNum').val());
+    let getTeam = $('#myTeam').val();
+    let getBth = $('#myBth').val();
+    let getCountry = $('#myCountry').val();
+    let getFirst = parseInt($('#myFirst').val());
+    let getPodium = parseInt($('#myPodium').val());
+    let getWC = parseInt($('#myWC').val());
+    let myData = { 
+      "First_Name": getFname,
+      "Last_Name": getLname,
+      "Team": getTeam,
+      "Number": getNum,
+      "Birthday": getBth,
+      "Country": getCountry,
+      "First_Season": getFirst,
+      "Podium": getPodium,
+      "World_Champion": getWC
+    }
+    if(method == 'Post') {
+      $.ajax({
+        url: 'http://localhost:5500/f1/drivers/',
+        type: 'POST',
+        dataType:'json',
+        data: JSON.stringify(myData),
+        contentType: "application/json",
+        success: (data) => {
+          // console.log(data);
+          window.location.assign("/HTML_SPA/");
+        }
+      })
+    }
+    if(method == 'update') {
+      $.ajax({
+        url: 'http://localhost:5500/f1/drivers/' + id,
+        type: 'PUT',
+        dataType: 'json',
+        data: JSON.stringify(myData),
+        contentType: "application/json",
+        success: (data) => {
+          console.log(data);
+          window.location.assign("/HTML_SPA/");
+        }
+      })
+    }
+    if(method == 'delete') {
+      $.ajax({
+        url: 'http://localhost:5500/f1/drivers/' + id,
+        type: 'DELETE',
+        success: (result) => {
+          console.log(result);
+          window.location.assign("/HTML_SPA/");
+        }
+      })
+    }
+  }
+
 </script>
 </html>
