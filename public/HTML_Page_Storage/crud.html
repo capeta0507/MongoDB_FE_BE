@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>insert</title>
+</head>
+<style>
+  .myForm {
+    border: 1px solid black;
+    margin: 10px auto;
+    padding: 10px;
+  }
+  .myBtn {
+    margin: 10px auto;
+  }
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  a:hover {
+    color: white;
+    text-decoration: none;
+  }
+</style>
+<body>
+  <div class="container myForm">
+    <h1 class="text-center">F1 Drivers 2019</h1>
+    <div class="row mt-3">
+      <!-- mt = margin-top ; px = padding-left & padding-right ; pl = padding-left -->
+      <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">名字：</label>
+      <div class="col-lg-9 col-sm-9 col-7 pl-0">
+        <input type="text" class="form-control" id="myFname" value="" placeholder="請輸入名字">
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row mt-3">
+      <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">姓氏：</label>
+      <div class="col-lg-9 col-sm-9 col-7 pl-0">
+        <input type="text" class="form-control" id="myLname" value="" placeholder="請輸入姓氏">
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row mt-3">
+      <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">車號：</label>
+      <div class="col-lg-9 col-sm-9 col-7 pl-0">
+        <input type="number" class="form-control" id="myNum" value="0" placeholder="請輸入車號">
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row mt-3">
+      <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">車隊：</label>
+      <div class="col-lg-9 col-sm-9 col-7 pl-0">
+        <input type="text" class="form-control" id="myTeam" value="" placeholder="填寫車隊名字喔！">
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row mt-3">
+      <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">生日：</label>
+      <div class="col-lg-9 col-sm-9 col-7 pl-0">
+        <input type="date" class="form-control" id="myBth" value="2019-01-01">
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row mt-3">
+      <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">出生地：</label>
+      <div class="col-lg-9 col-sm-9 col-7 pl-0">
+        <input type="text" class="form-control" id="myCountry" value="" placeholder="請輸入出生地">
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row mt-3">
+      <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">首個賽季：</label>
+      <div class="col-lg-9 col-sm-19 col-7 pl-0">
+        <input type="number" class="form-control" id="myFirst" value="0" placeholder="你的第一個賽季">
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row mt-3">
+      <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">頒獎台次：</label>
+      <div class="col-lg-9 col-sm-9 col-7 pl-0">
+        <input type="number" class="form-control" id="myPodium" value="0" placeholder="您上頒獎台的次數">
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="row mt-3">
+      <label class="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">世界冠軍：</label>
+      <div class="col-lg-9 col-sm-9 col-7 pl-0">
+        <input type="number" class="form-control" id="myWC" value="0" placeholder="您奪得了幾次世界冠軍">
+      </div>
+      <div class="col-1"></div>
+    </div>
+    <div class="myBtn text-center">
+      <button id='myCreate' class="btn btn-success">新增</button>
+      <button class="btn btn-warning">
+        <a href="/HTML_Page_Storage/">
+          返回
+        </a>
+      </button>
+    </div>
+  </div>
+
+</body>
+<script>
+  // 取得 sessionStorage 參數 myMethod , myID;
+  let myMethod = window.sessionStorage.myMethod;
+  // console.log(myMethod);
+  let myId = window.sessionStorage.myID;
+  // console.log('myId', myId);
+  $(document).ready(() => {
+    if (myMethod == "U" || myMethod == "D") {
+      $.ajax({
+        url: 'http://localhost:5500/f1/driver/' + myId,
+        type: 'GET',
+        success: (result) => {
+          // console.log('result', result[0]._id);
+          $('#myFname').val(result[0].First_Name);
+          $('#myLname').val(result[0].Last_Name);
+          $('#myNum').val(result[0].Number);
+          $('#myTeam').val(result[0].Team);
+          $('#myBth').val(result[0].Birthday);
+          $('#myCountry').val(result[0].Country);
+          $('#myFirst').val(result[0].First_Season);
+          $('#myPodium').val(result[0].Podium);
+          $('#myWC').val(result[0].World_Champion);
+        }
+      })
+    }
+    // 根據 Method 顯示對應按鈕文字
+    if (myMethod == "U") {
+      $("#myCreate").text("修改");
+    }
+    if (myMethod == "D") {
+      $("#myCreate").text("刪除");
+    }
+
+    // 功能按鈕執行 Method -> CRUD 對應 REST-Ful API
+    $('#myCreate').click(() => {
+      let getFname = $('#myFname').val();
+      let getLname = $('#myLname').val();
+      let getNum = parseInt($('#myNum').val());
+      let getTeam = $('#myTeam').val();
+      let getBth = $('#myBth').val();
+      let getCountry = $('#myCountry').val();
+      let getFirst = parseInt($('#myFirst').val());
+      let getPodium = parseInt($('#myPodium').val());
+      let getWC = parseInt($('#myWC').val());
+      let myData = { 
+        "First_Name": getFname,
+        "Last_Name": getLname,
+        "Team": getTeam,
+        "Number": getNum,
+        "Birthday": getBth,
+        "Country": getCountry,
+        "First_Season": getFirst,
+        "Podium": getPodium,
+        "World_Champion": getWC
+      }
+      // console.log('mybth', myData)
+      // 新增紀錄
+      if (myMethod == "C") {
+        $.ajax({
+          url: 'http://localhost:5500/f1/drivers/',
+          type: 'POST',
+          dataType:'json',
+          data: JSON.stringify(myData),
+          contentType: "application/json",
+          success: (data) => {
+            // console.log(data);
+            window.location.assign("/HTML_Page_Storage/");
+          }
+        })
+      }
+      // 修改紀錄
+      if (myMethod == "U") {
+        $.ajax({
+          url: 'http://localhost:5500/f1/drivers/' + myId,
+          type: 'PUT',
+          dataType: 'json',
+          data: JSON.stringify(myData),
+          contentType: "application/json",
+          success: (data) => {
+            console.log(data);
+            window.location.assign("/HTML_Page_Storage/");
+          }
+        })
+      }
+      // 刪除紀錄
+      if (myMethod == "D") {
+        $.ajax({
+          url: 'http://localhost:5500/f1/drivers/' + myId,
+          type: 'DELETE',
+          success: (result) => {
+            console.log(result);
+            window.location.assign("/HTML_Page_Storage/");
+          }
+        })
+      }
+
+    });
+  })
+</script>
+</html>
