@@ -113,7 +113,7 @@
   console.log('myId', myId);
   $(document).ready(() => {
     $.ajax({
-      url: 'http://localhost:5500/f1/driver/' + myId,
+      url: '/f1/driver/' + myId,
       type: 'GET',
       success: (result) => {
         // console.log('result', result[0]._id);
@@ -131,11 +131,11 @@
   })
   $("#myDelete").click(() => {
     $.ajax({
-      url: 'http://localhost:5500/f1/drivers/' + myId,
+      url: '/f1/drivers/' + myId,
       type: 'DELETE',
       success: (result) => {
         console.log(result);
-        window.location.assign("http://localhost:5500/HTML_Page/");
+        window.location.assign("/HTML_Page/");
       }
     })
   })

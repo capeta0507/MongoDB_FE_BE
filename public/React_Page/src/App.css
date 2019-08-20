@@ -1,0 +1,11 @@
+.myForm {
+  border: 1px solid black;
+  margin: 10px auto;
+  padding: 10px;
+}
+.myBtn {
+  margin: 10px auto;
+}
+.center {
+  text-align: center;
+}

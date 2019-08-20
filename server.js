@@ -1,4 +1,5 @@
 const express = require('express');
+var cors = require('cors');
 var moment = require('moment');
 
 var bodyParser = require('body-parser');
@@ -17,6 +18,9 @@ const PORT = 5500;
 
 // App
 const app = express();
+
+// 允許跨平台request (cors)
+app.use(cors());
 
 // 提供靜態檔案顯示
 app.use('/', express.static(__dirname + '/public'));
