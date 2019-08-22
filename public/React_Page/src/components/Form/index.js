@@ -9,7 +9,7 @@ const Form = () => {
   const [team, setTeam] = useState('')
   const [birthday, setBirthday] = useState('2019-01-01')
   const [country, setCountry] = useState('')
-  const [first, setFirst] = useState(0)
+  const [first, setFirst] = useState(2010)
   const [podium, setPodium] = useState(0)
   const [champion, setChampion] = useState(0)
 
@@ -51,6 +51,7 @@ const Form = () => {
       })
     }
   },[1])
+  // onclick送出
   const send = () => {
     let myData = { 
       "First_Name": fName,
@@ -63,7 +64,24 @@ const Form = () => {
       "Podium": podium,
       "World_Champion": champion
     }
-    console.log(myData)
+    if(fName === '') {
+      alert('請填寫名字')
+      return false
+    }
+    if(lName === '') {
+      alert('請填寫姓氏')
+      return false
+    }
+    if(team === '') {
+      alert('請填寫車隊')
+      return false
+    }
+    if(country === '') {
+      alert('請填寫出生地')
+      return false
+    }
+    // console.log(myData)
+    // 新增
     if(getMethod === 'C') {
       // console.log('C')
       axios({
@@ -74,10 +92,12 @@ const Form = () => {
         'Content-Type': 'application/json'
       }).then((response) => {
         console.log(response)
+        window.location.assign('/')
       }).catch((err) => {
         console.log(err)
       })
     } else if(getMethod === 'U') {
+      // 修改
       axios({
         method: 'PUT',
         baseURL: 'http://localhost:5500',
@@ -86,23 +106,25 @@ const Form = () => {
         'Content-Type': 'application/json'
       }).then((response) => {
         console.log(response)
+        window.location.assign('/')
       }).catch((err) => {
         console.log(err)
       })
       // console.log('U')
     } else if(getMethod === 'D') {
       // console.log('D')
+      // 刪除
       axios({
         method: 'DELETE',
         baseURL: 'http://localhost:5500',
         url: '/f1/drivers/' + getId,
       }).then((response) => {
         console.log(response)
+        window.location.assign('/')
       }).catch((err) => {
         console.log(err)
       })
     }
-    window.location.assign('/')
   }
   return (
     <div className="container myForm">
