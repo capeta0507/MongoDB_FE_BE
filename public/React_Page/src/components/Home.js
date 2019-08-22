@@ -32,10 +32,8 @@ const Home = () =>{
                   <th scope="col">Number</th>
                   <th scope="col">
                     功能 
-                    <Link to='/Form'>
-                      <button className="btn btn-success btn-sm">
-                        新增 + 
-                      </button>
+                    <Link to='/Form?method=C&id=00000' className="btn btn-success btn-sm">
+                      新增 + 
                     </Link>
                   </th>
                 </tr>
@@ -44,8 +42,10 @@ const Home = () =>{
                 {(() => {
                   if (f1Data) {
                     return f1Data.map((data, idx) => {
-                      console.log(data)
+                      // console.log(data)
                       let id = idx + 1
+                      let driverId = data._id
+                      console.log(driverId)
                       return (
                         <tr key={idx}>
                           <th scope="row">{id}</th>
@@ -53,8 +53,12 @@ const Home = () =>{
                           <td>{data.Team}</td>
                           <td>{data.Number}</td>
                           <td>
-                            <button className='btn btn-primary btn-sm'>修改</button> 
-                            <button className='btn btn-danger btn-sm'>刪除</button>
+                            <Link to={`/Form?method=U&id=${driverId}`} className='btn btn-primary btn-sm'>
+                              修改
+                            </Link>
+                            <Link to={`/Form?method=D&id=${driverId}`} className='btn btn-danger btn-sm'>
+                              刪除
+                            </Link>
                           </td>
                         </tr>
                       )

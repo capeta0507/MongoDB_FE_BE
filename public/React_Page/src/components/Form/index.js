@@ -1,5 +1,6 @@
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 const Form = (props) => {
   const [fName, setFname] = useState('')
@@ -11,8 +12,104 @@ const Form = (props) => {
   const [first, setFirst] = useState(0)
   const [podium, setPodium] = useState(0)
   const [champion, setChampion] = useState(0)
+  const [myMethod, setMyMethod] = useState('')
+  const [myId, setMyId] = useState('')
+  // const [sendData, setSendData] = useState([])
+  useEffect(() => {
+    let getUrl = window.location.href;
+    // console.log('myUrl', getUrl)
+    let getSec = getUrl.split("?");
+    // console.log(getSec);
+    let getParams = getSec[1].split("&");
+    // console.log(getParams);
+    let getMethod = getParams[0].split("=")[1];
+    setMyMethod(getMethod)
+    // console.log(getMethod);
+    let getId = getParams[1].split("=")[1];
+    setMyId(getId)
+    // console.log('myId', getId);
+    if (myMethod === "U" || myMethod === "D"){
+      // 取消重复的请求
+      var CancelToken = axios.CancelToken;
+      var source = CancelToken.source();
+      axios({
+        method: 'GET',
+        baseURL: 'http://localhost:5500',
+        url: '/f1/driver/' + getId,
+        cancelToken: source.token,
+        'Content-Type': 'application/json'
+      }).then((result) => {
+        let data = result.data
+        console.log(data[0])
+        setFname(data[0].First_Name)
+        setLname(data[0].Last_Name)
+        setNumber(data[0].Number)
+        setTeam(data[0].Team)
+        setBirthday(data[0].Birthday)
+        setCountry(data[0].Country)
+        setFirst(data[0].First_Season)
+        setPodium(data[0].Podium)
+        setChampion(data[0].World_Champion)
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+  })
+  const send = () => {
+    let myData = { 
+      "First_Name": fName,
+      "Last_Name": lName,
+      "Team": team,
+      "Number": number,
+      "Birthday": birthday,
+      "Country": country,
+      "First_Season": first,
+      "Podium": podium,
+      "World_Champion": champion
+    }
+    console.log(myData)
+    if(myMethod === 'C') {
+      // console.log('C')
+      axios({
+        method: 'POST',
+        baseURL: 'http://localhost:5500',
+        url: '/f1/drivers/',
+        data: myData,
+        'Content-Type': 'application/json'
+      }).then((response) => {
+        console.log(response)
+      }).catch((err) => {
+        console.log(err)
+      })
+    } else if(myMethod === 'U') {
+      axios({
+        method: 'PUT',
+        baseURL: 'http://localhost:5500',
+        url: '/f1/drivers/' + myId,
+        data: myData,
+        'Content-Type': 'application/json'
+      }).then((response) => {
+        console.log(response)
+      }).catch((err) => {
+        console.log(err)
+      })
+      // console.log('U')
+    } else if(myMethod === 'D') {
+      // console.log('D')
+      axios({
+        method: 'DELETE',
+        baseURL: 'http://localhost:5500',
+        url: '/f1/drivers/' + myId,
+      }).then((response) => {
+        console.log(response)
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+    window.location.assign('/')
+  }
   return (
-    <div classNameName="container myForm">
+    <div className="container myForm">
       <h1 className="text-center">F1 Drivers 2019</h1>
       <div className="row mt-3">
         <label className="col-lg-2 col-sm-2 col-4 col-form-label text-right px-0">名字：</label>
@@ -78,15 +175,38 @@ const Form = (props) => {
         <div className="col-1"></div>
       </div>
       <div className="myBtn text-center">
-        <button
+        {(() => {
+          // console.log('id', myMethod, myId)
+          if(myMethod === 'U') {
+            return (
+              <button
+                className="btn btn-success"
+                onClick={send}>修改
+              </button>
+            )
+          } else if(myMethod === 'D') {
+            return (
+              <button
+                className="btn btn-success"
+                onClick={send}>刪除
+              </button>
+            )
+          }
+          return (
+            <button
+              className="btn btn-success"
+              onClick={send}>新增
+            </button>
+          )
+        })()}
+        {/* <button
           className="btn btn-success"
           onClick={() => {
             window.location.assign('/')
-          }}>新增</button>
-        <Link to='/'>
-          <button className="btn btn-warning">
-            返回
-          </button>
+          }}>新增
+        </button> */}
+        <Link to='/' className="btn btn-warning">
+          返回
         </Link>
       </div>
     </div>
