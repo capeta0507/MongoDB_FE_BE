@@ -2,7 +2,7 @@ import React,{ useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 
-const Form = (props) => {
+const Form = () => {
   const [fName, setFname] = useState('')
   const [lName, setLname] = useState('')
   const [number, setNumber] = useState(0)
@@ -12,49 +12,45 @@ const Form = (props) => {
   const [first, setFirst] = useState(0)
   const [podium, setPodium] = useState(0)
   const [champion, setChampion] = useState(0)
-  const [myMethod, setMyMethod] = useState('')
-  const [myId, setMyId] = useState('')
-  // const [sendData, setSendData] = useState([])
+
+  // 獲取網址字串
+  let getUrl = window.location.href;
+  // console.log('myUrl', getUrl)
+  let getSec = getUrl.split("?");
+  // console.log(getSec);
+  let getParams = getSec[1].split("&");
+  // console.log(getParams);
+  let getMethod = getParams[0].split("=")[1];
+  // console.log(getMethod);
+  let getId = getParams[1].split("=")[1];
+  // console.log('getId', getId);
+  // useEffect,[1]限制執行次數
   useEffect(() => {
-    let getUrl = window.location.href;
-    // console.log('myUrl', getUrl)
-    let getSec = getUrl.split("?");
-    // console.log(getSec);
-    let getParams = getSec[1].split("&");
-    // console.log(getParams);
-    let getMethod = getParams[0].split("=")[1];
-    setMyMethod(getMethod)
-    // console.log(getMethod);
-    let getId = getParams[1].split("=")[1];
-    setMyId(getId)
-    // console.log('myId', getId);
-    if (myMethod === "U" || myMethod === "D"){
-      // 取消重复的请求
-      var CancelToken = axios.CancelToken;
-      var source = CancelToken.source();
+    if (getMethod === "U" || getMethod === "D"){
       axios({
         method: 'GET',
         baseURL: 'http://localhost:5500',
         url: '/f1/driver/' + getId,
-        cancelToken: source.token,
         'Content-Type': 'application/json'
       }).then((result) => {
         let data = result.data
-        console.log(data[0])
-        setFname(data[0].First_Name)
-        setLname(data[0].Last_Name)
-        setNumber(data[0].Number)
-        setTeam(data[0].Team)
-        setBirthday(data[0].Birthday)
-        setCountry(data[0].Country)
-        setFirst(data[0].First_Season)
-        setPodium(data[0].Podium)
-        setChampion(data[0].World_Champion)
+        // console.log(data[0])
+        if(data){
+          setFname(data[0].First_Name)
+          setLname(data[0].Last_Name)
+          setNumber(data[0].Number)
+          setTeam(data[0].Team)
+          setBirthday(data[0].Birthday)
+          setCountry(data[0].Country)
+          setFirst(data[0].First_Season)
+          setPodium(data[0].Podium)
+          setChampion(data[0].World_Champion)
+        }
       }).catch((err) => {
         console.log(err)
       })
     }
-  })
+  },[1])
   const send = () => {
     let myData = { 
       "First_Name": fName,
@@ -68,7 +64,7 @@ const Form = (props) => {
       "World_Champion": champion
     }
     console.log(myData)
-    if(myMethod === 'C') {
+    if(getMethod === 'C') {
       // console.log('C')
       axios({
         method: 'POST',
@@ -81,11 +77,11 @@ const Form = (props) => {
       }).catch((err) => {
         console.log(err)
       })
-    } else if(myMethod === 'U') {
+    } else if(getMethod === 'U') {
       axios({
         method: 'PUT',
         baseURL: 'http://localhost:5500',
-        url: '/f1/drivers/' + myId,
+        url: '/f1/drivers/' + getId,
         data: myData,
         'Content-Type': 'application/json'
       }).then((response) => {
@@ -94,12 +90,12 @@ const Form = (props) => {
         console.log(err)
       })
       // console.log('U')
-    } else if(myMethod === 'D') {
+    } else if(getMethod === 'D') {
       // console.log('D')
       axios({
         method: 'DELETE',
         baseURL: 'http://localhost:5500',
-        url: '/f1/drivers/' + myId,
+        url: '/f1/drivers/' + getId,
       }).then((response) => {
         console.log(response)
       }).catch((err) => {
@@ -176,15 +172,15 @@ const Form = (props) => {
       </div>
       <div className="myBtn text-center">
         {(() => {
-          // console.log('id', myMethod, myId)
-          if(myMethod === 'U') {
+          // console.log('id', getMethod, getId)
+          if(getMethod === 'U') {
             return (
               <button
                 className="btn btn-success"
                 onClick={send}>修改
               </button>
             )
-          } else if(myMethod === 'D') {
+          } else if(getMethod === 'D') {
             return (
               <button
                 className="btn btn-success"

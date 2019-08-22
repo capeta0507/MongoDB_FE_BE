@@ -45,11 +45,11 @@ const Home = () =>{
                       // console.log(data)
                       let id = idx + 1
                       let driverId = data._id
-                      console.log(driverId)
+                      // console.log(driverId)
                       return (
                         <tr key={idx}>
                           <th scope="row">{id}</th>
-                          <td>{data.Last_Name}</td>
+                          <td>{data.First_Name} {data.Last_Name}</td>
                           <td>{data.Team}</td>
                           <td>{data.Number}</td>
                           <td>
